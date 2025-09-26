@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=65.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+
+[project]
+name = "ovos-solver-plugin-gemini-chat"
+version = "0.0.1"
+authors = [
+  { name="Flávio De Melo", email="flavio.eler@gmail.com" },
+]
+description = "A Gemini-based question solver plugin for OpenVoiceOS"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache 2.0",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "requests<3.0.0,>=2.0.0",
+    "google-genai>=1.38.0",
+    "ovos-plugin-manager>=1.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/femelo/ovos-solver-plugin-gemini-chat"
+Issues = "https://github.com/femelo/ovos-solver-plugin-gemini-chat/issues"
