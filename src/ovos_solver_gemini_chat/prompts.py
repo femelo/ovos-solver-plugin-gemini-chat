@@ -68,6 +68,7 @@ class GeminiChatPromptSolver(GeminiChatCompletionsSolver):
     def get_spoken_answer(
         self: GeminiChatPromptSolver,
         query: str,
+        context: dict[str, Any] | None = None,
         **kwargs: Any,
     ) -> str | None:
         context = context or {}

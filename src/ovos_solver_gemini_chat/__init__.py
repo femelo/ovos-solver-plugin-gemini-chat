@@ -10,6 +10,7 @@ class GeminiChatSolver(GeminiChatCompletionsSolver):
         self: GeminiChatSolver,
         config: dict[str, Any] | None = None,
     ) -> None:
+        config = config or {}
         super().__init__(config=config)
         self.default_persona = (
             config.get("persona")
@@ -37,7 +38,7 @@ class GeminiChatSolver(GeminiChatCompletionsSolver):
     def get_spoken_answer(
         self: GeminiChatSolver,
         query: str,
-        context: str | None = None,
+        context: dict[str, Any] | None = None,
         **kwargs: Any,
     ) -> str | None:
         context = context or {}

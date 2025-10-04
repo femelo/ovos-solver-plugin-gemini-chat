@@ -6,7 +6,8 @@ from typing import (
 
 # import requests
 import re
-from google import genai
+from google.genai import types, Client
+from google.genai.chats import Chat
 
 from ovos_plugin_manager.templates.solvers import QuestionSolver
 from ovos_utils.log import LOG
@@ -25,6 +26,7 @@ class GeminiChatCompletionsSolver(QuestionSolver):
         self: GeminiChatCompletionsSolver,
         config: dict[str, Any] | None = None,
     ) -> None:
+        config = config or {}
         super().__init__(config)
         self.api_key = self.config.get("api_key")
         self.reasoning = self.config.get("enable_reasoning", False)
@@ -40,7 +42,7 @@ class GeminiChatCompletionsSolver(QuestionSolver):
                 filter(
                     lambda m: m.startswith("gemini"),
                     map(
-                        lambda m: m.name.split("/")[-1],
+                        lambda m: m.name.split("/")[-1],  # type: ignore
                         self.client.models.list()
                     ),
                 )
@@ -57,16 +59,16 @@ class GeminiChatCompletionsSolver(QuestionSolver):
         self.chatbot = self._setup_chat()
         LOG.info(f"Using Gemini model: {self.model}")
 
-    def _setup_client(self: GeminiChatCompletionsSolver) -> genai.Client:
+    def _setup_client(self: GeminiChatCompletionsSolver) -> Client:
         """Authenticate user for a Hugging Chat session and retrieve cookie jar."""
-        return genai.Client(api_key=self.api_key)
+        return Client(api_key=self.api_key)
  
-    def _setup_chat(self: GeminiChatCompletionsSolver) -> genai.chats.Chat:
+    def _setup_chat(self: GeminiChatCompletionsSolver) -> Chat:
         """Initialize chat session."""
         return self.client.chats.create(
             model=self.model,
-            config=genai.types.GenerateContentConfig(
-                thinking_config=genai.types.ThinkingConfig(
+            config=types.GenerateContentConfig(
+                thinking_config=types.ThinkingConfig(
                     thinking_budget=-1 if self.reasoning else 0
                 ),
                 system_instruction=self.initial_prompt,
@@ -80,7 +82,7 @@ class GeminiChatCompletionsSolver(QuestionSolver):
     ) -> str:
         """Send query to Gemini"""
         response = self.chatbot.send_message(prompt)
-        return response.text
+        return response.text or ""
 
     def _do_streaming_api_request(
         self: GeminiChatCompletionsSolver,

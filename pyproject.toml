@@ -1,15 +1,17 @@
 [build-system]
-requires = ["setuptools>=65.0"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
-[tool.setuptools.package-data]
+[tool.hatch.version]
+path = "src/ovos_solver_gemini_chat/__version__.py"
 
 [project]
 name = "ovos-solver-plugin-gemini-chat"
-version = "0.0.1"
+keywords = ["ovos", "skill", "plugin", "solver", "gemini", "chat"]
+dynamic = ["version"]
 authors = [
   { name="Flávio De Melo", email="flavio.eler@gmail.com" },
 ]
@@ -18,7 +20,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: Apache 2.0",
+    "License :: OSI Approved :: Apache Software License",
     "Operating System :: OS Independent",
 ]
 dependencies = [

@@ -33,6 +33,9 @@ class GeminiDialogTransformer(DialogTransformer):
         :param dialog: str utterance to mutate before TTS
         :returns: str mutated dialog
         """
+        if self.solver is None:
+            return dialog, context or {}
+        context = context or {}
         prompt = (
             context.get("prompt")
             or self.config.get("rewrite_prompt")
@@ -40,6 +43,6 @@ class GeminiDialogTransformer(DialogTransformer):
         if not prompt:
             return dialog, context
         return (
-            self.solver.get_spoken_answer(f"{prompt}: {dialog}"),
+            self.solver.get_spoken_answer(f"{prompt}: {dialog}") or "",
             context,
         )
