@@ -32,3 +32,12 @@ dependencies = [
 [project.urls]
 Homepage = "https://github.com/femelo/ovos-solver-plugin-gemini-chat"
 Issues = "https://github.com/femelo/ovos-solver-plugin-gemini-chat/issues"
+
+[project.entry-points."neon.plugin.solver"]
+"ovos-solver-plugin-gemini-chat" = "ovos_solver_plugin_gemini_chat.engines:GeminiChatCompletionsSolver"
+
+[project.entry-points."opm.transformer.dialog"]
+"ovos-dialog-transformer-plugin-gemini-chat" = "ovos_solver_plugin_gemini_chat.dialog_transformers:GeminiDialogTransformer"
+
+[project.entry-points."opm.plugin.persona"]
+"Gemini" = "ovos_solver_plugin_gemini_chat:GEMINI_DEMO"
