@@ -42,11 +42,11 @@ You can rewrite text dynamically based on specific personas, such as simplifying
 
 #### Example Usage:
 
-- **`rewrite_prompt`:** `"rewrite the text as if you were explaining it to a 5-year-old"`  
-- **Input:** `"Quantum mechanics is a branch of physics that describes the behavior of particles at the smallest scales."`  
-- **Output:** `"Quantum mechanics is like a special kind of science that helps us understand really tiny things."`  
+- `rewrite_prompt`: `"rewrite the text as if you were explaining it to a 5-year-old"`  
+- _input_: `"Quantum mechanics is a branch of physics that describes the behavior of particles at the smallest scales."`  
+- _output_: `"Quantum mechanics is like a special kind of science that helps us understand really tiny things."`  
 
-Examples of `rewrite_prompt` Values:
+Examples of `rewrite_prompt` values:
 - `"rewrite the text as if it was an angry old man speaking"`  
 - `"Add more 'dude'ness to it"`  
 - `"Explain it like you're teaching a child"`  
@@ -62,7 +62,7 @@ To enable this plugin, add the following to your `mycroft.conf`:
 }
 ```
 
-> 💡 the user utterance will be appended after `rewrite_prompt` for the actual query
+> 💡 The user utterance will be appended after `rewrite_prompt` for the actual query
 
 
 ## Direct Usage
