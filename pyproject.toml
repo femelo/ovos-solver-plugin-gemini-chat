@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 where = ["src"]
 
 [tool.hatch.version]
-path = "src/ovos_solver_gemini_chat/__version__.py"
+path = "src/ovos_solver_plugin_gemini_chat/__version__.py"
 
 [project]
 name = "ovos-solver-plugin-gemini-chat"
