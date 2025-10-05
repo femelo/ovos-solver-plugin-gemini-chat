@@ -1,10 +1,15 @@
 from __future__ import annotations
 import warnings
+from typing import Any
 from ovos_solver_gemini_chat.engines import GeminiChatCompletionsSolver
 
 
 class GeminiChatSolver(GeminiChatCompletionsSolver):
-    def __init__(self, *args, **kwargs):
+    def __init__(
+        self: GeminiChatSolver,
+        *args: Any,
+        **kwargs: Any,
+    ) -> None:
         """
         Initializes the solver and issues a deprecation warning.
         
