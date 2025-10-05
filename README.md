@@ -16,7 +16,7 @@ python3 -m pip install ovos-solver-plugin-gemini-chat
 
 ## Persona Usage
 
-To use your own persona via the Gemini chat solver plugain, create a JSON file as `~/.config/ovos_persona/gemini.json`: 
+To use your own persona via the Gemini chat solver plugin, create a JSON file as `~/.config/ovos_persona/gemini.json`: 
 
 ```json
 {
