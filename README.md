@@ -22,7 +22,7 @@ To use your own persona via the Gemini chat solver plugin, create a JSON file as
 {
   "name": "Gemini",
   "solvers": [
-    "ovos-solver-plugin-gemini-chat",
+    "ovos-solver-plugin-gemini-chat"
   ],
   "ovos-solver-plugin-gemini-chat": {
     "api_key": "your-gemini-api-key",

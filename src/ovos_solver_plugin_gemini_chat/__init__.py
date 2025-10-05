@@ -27,7 +27,7 @@ class GeminiChatSolver(GeminiChatCompletionsSolver):
 GEMINI_DEMO = {
   "name": "Gemini Chat",
   "solvers": [
-    "ovos-solver-plugin-gemini-chat",
+    "ovos-solver-plugin-gemini-chat"
   ],
   "ovos-solver-plugin-gemini-chat": {
     "api_key": "your-gemini-api-key",
