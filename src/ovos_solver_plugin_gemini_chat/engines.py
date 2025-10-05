@@ -229,7 +229,6 @@ class GeminiChatCompletionsSolver(ChatMessageSolver):
 
     def _do_api_request(
         self: GeminiChatCompletionsSolver,
-        # messages: list[dict],
         prompt: str,
     ) -> str | None:
         """Send query to Gemini"""
@@ -238,7 +237,6 @@ class GeminiChatCompletionsSolver(ChatMessageSolver):
 
     def _do_streaming_api_request(
         self: GeminiChatCompletionsSolver,
-        # messages: list[dict],
         prompt: str,
     ) -> Generator[str, None, None]:
         """Send query to Gemini"""
@@ -253,22 +251,12 @@ class GeminiChatCompletionsSolver(ChatMessageSolver):
         """
         Builds the chat history as a list of messages, starting with a system prompt.
         """
-        # qa = self.qa_pairs[-1 * self.max_utts:]
-        # system_prompt = system_prompt or self.system_prompt or "You are a helpful assistant."
-        # messages = [
-        #     {"role": "system", "parts": [{"text": system_prompt}]},
-        # ]
-        # for q, a in qa:
-        #     messages.append({"role": "user", "parts": [{"text": q}]})
-        #     messages.append({"role": "assistant", "parts": [{"text": a}]})
         messages = []
         for message in self.chat.get_history():
             messages.append(
                 {
                     "role": message.role,
-                    "parts": [
-                        {"text": part.text} for part in message.parts  # type: ignore
-                    ]
+                    "content": message.parts[0].text if message.parts else "",
                 }
             )
         return messages
@@ -282,48 +270,36 @@ class GeminiChatCompletionsSolver(ChatMessageSolver):
         Builds a list of chat messages including the system prompt, recent conversation history, and the current user utterance.
         """
         messages = self.get_chat_history(system_prompt)
-        messages.append({"role": "user", "parts": [{"text": utt}]})
+        messages.append({"role": "user", "content": utt})
         return messages
 
     # abstract Solver methods
     def continue_chat(
         self: GeminiChatCompletionsSolver,
-        query: str,
-        # messages: list[dict],
+        messages: list[dict],
         lang: str | None = None,
         units: str | None = None,
     ) -> str | None:
         """
         Generates a chat response using the provided message history and updates memory if enabled.
         """
-        # if messages[0]["role"] != "system":
-        #     messages = [{"role": "system", "parts": [{"text": self.system_prompt}]}] + messages
-        # response = self._do_api_request(messages)
+        query = messages[-1]["content"]
         response = self._do_api_request(query)
         answer = response.strip() if response else None
         if not answer or not answer.strip("?") or not answer.strip("_"):
             return None
-        # if self.memory:
-        #     query = messages[-1]["content"]
-        #     self.qa_pairs.append((query, answer))
         return answer
 
     def stream_chat_utterances(
         self: GeminiChatCompletionsSolver,
-        # messages: list[dict],
-        query: str,
+        messages: list[dict],
         lang: str | None = None,
         units: str | None = None,
     ) -> Generator[str, None, None]:
         """
         Stream utterances for the given chat history as they become available.
         """
-        # if messages[0]["role"] != "system":
-        #     messages = [{"role": "system", "content": self.system_prompt }] + messages
-        # answer = ""
-        # query = messages[-1]["content"]
-        # if self.memory:
-        #     self.qa_pairs.append((query, answer))
+        query = messages[-1]["content"]
         answer = ""
         for chunk in self._do_streaming_api_request(query):
             end_detection = [r.search(chunk) is not None for r in ENDING_EXPRS]
@@ -351,9 +327,8 @@ class GeminiChatCompletionsSolver(ChatMessageSolver):
         """
         Stream utterances for the given query as they become available.
         """
-        # messages = self.get_messages(query)
-        # yield from self.stream_chat_utterances(messages, lang, units)
-        yield from self.stream_chat_utterances(query, lang, units)
+        messages = [{"role": "user", "content": query}]
+        yield from self.stream_chat_utterances(messages, lang, units)
 
     def get_spoken_answer(
         self: GeminiChatCompletionsSolver,
@@ -364,7 +339,6 @@ class GeminiChatCompletionsSolver(ChatMessageSolver):
         """
         Obtain the spoken answer for a given query.
         """
-        # messages = self.get_messages(query)
+        messages = [{"role": "user", "content": query}]
         # just for api compat since it's a subclass, shouldn't be directly used
-        # return self.continue_chat(messages=messages, lang=lang, units=units)
-        return self.continue_chat(query=query, lang=lang, units=units)
+        return self.continue_chat(messages=messages, lang=lang, units=units)
