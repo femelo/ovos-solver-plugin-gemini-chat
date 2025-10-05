@@ -68,7 +68,7 @@ To enable this plugin, add the following to your `mycroft.conf`:
 ## Direct Usage
 
 ```python
-from ovos_solver_gemini_chat import GeminiChatSolver
+from ovos_solver_plugin_gemini_chat import GeminiChatSolver
 
 bot = GeminiChatSolver(
     {

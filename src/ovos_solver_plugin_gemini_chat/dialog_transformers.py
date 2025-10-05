@@ -2,7 +2,7 @@ from __future__ import annotations
 from typing import Any
 
 from ovos_plugin_manager.templates.transformers import DialogTransformer
-from ovos_solver_gemini_chat.engines import GeminiChatCompletionsSolver
+from ovos_solver_plugin_gemini_chat.engines import GeminiChatCompletionsSolver
 
 
 class GeminiDialogTransformer(DialogTransformer):
